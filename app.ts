@@ -1,27 +1,52 @@
-const num1Element = document.getElementById('num1') as HTMLInputElement;
-const num2Element = document.getElementById('num2') as HTMLInputElement; 
-const buttonElement = document.querySelector('button')!;
+const num1Element = document.getElementById("num1") as HTMLInputElement;
+const num2Element = document.getElementById("num2") as HTMLInputElement;
+const buttonElement = document.querySelector("button")!;
+const numResults: Array<number> = [];
+const textResults: string[] = [];
 
-function ad(num1: number, num2: number) {
-    if (typeOf num1 === "number" && typeOf num2 === "number") {
-        return num1 + num2;
-    }
-    else if (typeOf num1 === "string" && typeOf num2 === "string") {
-        return num1 + "" + num2
-    }
-    return +num1+ +num2
+type NumOrString = number | string;
+type Result = { val: number; timestamp: Date };
+
+interface ResultObj {
+  val: number;
+  timestamp: Date;
 }
 
-console.log(ad(1, 6));
+function add(num1: NumOrString, num2: NumOrString) {
+  if (typeof num1 === "number" && typeof num2 === "number") {
+    return num1 + num2;
+  } else if (typeof num1 === "string" && typeof num2 === "string") {
+    return num1 + "" + num2;
+  }
+  return +num1 + +num2;
+}
+
+console.log(add(1, 6));
+
+function printResult(resultObj: Result) {
+  console.log(resultObj.val);
+}
 
 if (buttonElement) {
-    
-buttonElement.addEventListener('click', () => {
+  buttonElement.addEventListener("click", () => {
     const num1 = num1Element.value;
     const num2 = num2Element.value;
-    const result = ad(+num1, +num2)
-    const stringResult = ad(num1, num2);
-    console.log(stringResult);
-    console.log(ad(true, false));
-})   
-};
+    const result = add(+num1, +num2);
+    numResults.push(result as number);
+    const stringResult = add(num1, num2);
+    textResults.push(stringResult as string);
+
+    console.log(stringResult, numResults, textResults);
+    printResult({ val: result as number, timestamp: new Date() });
+  });
+}
+
+const myPromise = new Promise<string>((resolve, reject) => {
+  setTimeout(() => {
+    resolve("it worked");
+  }, 1000);
+});
+
+myPromise.then((result) => {
+  console.log(result.split("w"));
+});

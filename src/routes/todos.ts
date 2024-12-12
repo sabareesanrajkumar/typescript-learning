@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { Todo } from "../models/todos";
 
 type requestBody = { text: string };
@@ -28,7 +28,9 @@ router.put("/todo/:todoId", (req, res, next) => {
 
   if (todoIndex >= 0) {
     todos[todoIndex] = { id: todos[todoIndex].id, text: req.body.text };
-    res.status(200).json({ message: "updated" });
+    return res.status(200).json({ message: "updated" });
+  } else {
+    return res.status(400).json({ message: "could'nt update" });
   }
 });
 
